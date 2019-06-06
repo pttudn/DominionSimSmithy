@@ -24,10 +24,10 @@ public class DominionSimSmithy{
             }
         }
         printDeck(deck);//デッキの内容を表示
-        deck = shuffleZone(deck);//デッキをシャッフル
+        shuffleZone(deck);//デッキをシャッフル
         drawDeck(deck,hand,trash);//デッキからカードを５枚引く
 
-        for(int i=0;i<2;i++){
+        for(int i=0;i<10;i++){
             printTurn(turn);//ターン数を表示
             printHand(hand);//手札の内容を表示
             purchasePhase(deck,hand,trash);//カードを購入・デッキにカードを追加
@@ -74,10 +74,20 @@ public class DominionSimSmithy{
 
     public static void drawDeck(String[] deck,String[] hand,String[] trash) {//デッキからカードをドローする
         for(int i=0;i<5;i++){
+            if(deck[0]==null) cleanUpDeck(deck,trash);
             hand[i] = deck[0];
             for(int j=1;j<deck.length;j++) deck[j-1]=deck[j];
         }
+    }
 
+    public static void cleanUpDeck(String[] deck,String[] trash){
+        System.out.println("デッキシャッフル");
+        for(int i=0;i<trash.length;i++){
+            if(trash[i]==null)break;
+            deck[i]=trash[i];
+            trash[i]=null;
+        }
+        shuffleZone(deck);
     }
 
     public static void purchasePhase(String[] deck,String[] hand,String[] trash){//購入フェイズのアクション
@@ -128,7 +138,7 @@ public class DominionSimSmithy{
     }
 
     public static void cleanUpPhase(String[] deck,String[] hand,String[] trash){//クリーンアップフェイズのアクション
-        System.out.println("---クリーンナップフェイズ---\n");
+        System.out.println("---クリーンナップフェイズ---");
         for(int i=0;i<hand.length;i++){
             if(hand[i]==null)break;
             else{
@@ -137,10 +147,10 @@ public class DominionSimSmithy{
             }
         }
         drawDeck(deck,hand,trash);
+        System.out.println("");
     }
 
-    public static String[] shuffleZone(String[] zone){//配列をシャッフルする
-        String[] array = new String[zone.length];
+    public static void shuffleZone(String[] zone){//配列をシャッフルする
         ArrayList<String> list = new ArrayList<String>();
         for(int i=0;i<zone.length;i++){
             if(zone[i]==null){
@@ -151,9 +161,8 @@ public class DominionSimSmithy{
         Collections.shuffle(list);
         int i=0;
         for(String n:list) {
-            array[i]=n;
+            zone[i]=n;
             i++;
         }
-        return array;
     }
 }
