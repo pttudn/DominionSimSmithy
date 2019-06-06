@@ -21,67 +21,54 @@ public class DominionSimSmithy{
             }
         }
         for(int i=0;i<2;i++){
-        printTurn(turn);
-        printDeck(deck);//デッキの内容を表示
-        drawDeck(hand,deck);//デッキからカードを５枚引く
-        printHand(hand);//手札の内容を表示
-        printDeck(deck);//デッキの内容を表示
-        purchasePhase(deck,hand,trash);//カードを購入・デッキにカードを追加
-        printTrash(trash);//トラッシュの内容を表示
-        cleanUpPhase(deck,hand,trash);//クリーンナップ
-        printHand(hand);//手札の内容を表示
-        printDeck(deck);//デッキの内容を表示
-        printTrash(trash);//トラッシュの内容を表示
+            printTurn(turn);
+            printDeck(deck);//デッキの内容を表示
+            drawDeck(hand,deck);//デッキからカードを５枚引く
+            printHand(hand);//手札の内容を表示
+            printDeck(deck);//デッキの内容を表示
+            purchasePhase(deck,hand,trash);//カードを購入・デッキにカードを追加
+            printTrash(trash);//トラッシュの内容を表示
+            cleanUpPhase(deck,hand,trash);//クリーンナップ
+            printHand(hand);//手札の内容を表示
+            printDeck(deck);//デッキの内容を表示
+            printTrash(trash);//トラッシュの内容を表示
         turn +=1;
         }
 
     }
 
-    static void printTurn(int turn){
+    static void printTurn(int turn){//現在のターンを表示
         System.out.println("---------現在 "+turn+" ターン目---------");
         System.out.println("");
     }
 
-    public static void printDeck(String[] deck){
+    public static void printDeck(String[] deck){//現在のデッキの内容を表示
         System.out.println("---現在のデッキ---");
-        for(int i=0;i<deck.length;i++){
-            if(deck[i]==null){
-                break;
-            }else{
-                System.out.print(deck[i]);
-            }
-        }
-        System.out.println("");
-        System.out.println("------------------");
-        System.out.println("");
-    }
-    public static void printHand(String[] hand){
-        System.out.println("---現在の手札---");
-        for(int i=0;i<hand.length;i++){
-            if(hand[i]==null){
-                break;
-            }else{
-                System.out.print(hand[i]);
-            }
-        }
-        System.out.println("");
-        System.out.println("------------------");
-        System.out.println("");
-    }
-    public static void printTrash(String[] trash){
-        System.out.println("---現在のトラッシュ---");
-        for(int i=0;i<trash.length;i++){
-            if(trash[i]==null){
-                break;
-            }else{
-                System.out.print(trash[i]);
-            }
-        }
-        System.out.println("");
-        System.out.println("------------------");
-        System.out.println("");
+        printAllCard(deck);
+        System.out.println("\n------------------");
     }
 
+    public static void printHand(String[] hand){//現在のハンドの内容を表
+        System.out.println("---現在のハンド---");
+        printAllCard(hand);
+        System.out.println("\n------------------");
+    }
+
+    public static void printTrash(String[] trash){//現在のトラッシュの内容を表
+        System.out.println("---現在のトラッシュ---");
+        printAllCard(trash);
+        System.out.println("\n------------------");
+    }
+
+    public static void printAllCard(String[] zone){//zoneのカードを一枚ずつ表示
+        for(int i=0;i<zone.length;i++){
+            if(zone[i]==null){
+                break;
+            }else{
+                System.out.print(zone[i]);
+            }
+        }
+    }
 
     public static void drawDeck(String[] hand,String[] deck) {
         for(int i=0;i<5;i++){
