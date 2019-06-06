@@ -20,14 +20,13 @@ public class DominionSimSmithy{
                 deck[i] = "P1";
             }
         }
+        printDeck(deck);//デッキの内容を表示
+        drawDeck(hand,deck);//デッキからカードを５枚引く
+
         for(int i=0;i<2;i++){
-            printTurn(turn);
-            printDeck(deck);//デッキの内容を表示
-            drawDeck(hand,deck);//デッキからカードを５枚引く
+            printTurn(turn);//ターン数を表示
             printHand(hand);//手札の内容を表示
-            printDeck(deck);//デッキの内容を表示
             purchasePhase(deck,hand,trash);//カードを購入・デッキにカードを追加
-            printTrash(trash);//トラッシュの内容を表示
             cleanUpPhase(deck,hand,trash);//クリーンナップ
             printHand(hand);//手札の内容を表示
             printDeck(deck);//デッキの内容を表示
@@ -38,24 +37,23 @@ public class DominionSimSmithy{
     }
 
     static void printTurn(int turn){//現在のターンを表示
-        System.out.println("---------現在 "+turn+" ターン目---------");
-        System.out.println("");
+        System.out.println("\n\n---------現在 "+turn+" ターン目---------\n");
     }
 
     public static void printDeck(String[] deck){//現在のデッキの内容を表示
-        System.out.println("---現在のデッキ---");
+        System.out.println("---デッキ---");
         printAllCard(deck);
         System.out.println("\n------------------");
     }
 
     public static void printHand(String[] hand){//現在のハンドの内容を表
-        System.out.println("---現在のハンド---");
+        System.out.println("---ハンド---");
         printAllCard(hand);
         System.out.println("\n------------------");
     }
 
     public static void printTrash(String[] trash){//現在のトラッシュの内容を表
-        System.out.println("---現在のトラッシュ---");
+        System.out.println("---トラッシュ---");
         printAllCard(trash);
         System.out.println("\n------------------");
     }
@@ -70,14 +68,14 @@ public class DominionSimSmithy{
         }
     }
 
-    public static void drawDeck(String[] hand,String[] deck) {
+    public static void drawDeck(String[] hand,String[] deck) {//デッキからカードをドローする
         for(int i=0;i<5;i++){
             hand[i] = deck[0];
             for(int j=1;j<deck.length;j++) deck[j-1]=deck[j];
         }
     }
 
-    public static void purchasePhase(String[] deck,String[] hand,String[] trash){
+    public static void purchasePhase(String[] deck,String[] hand,String[] trash){//購入フェイズのアクション
         System.out.println("---購入フェイズでカードを購入---");
         int moneyvalue = moneyValue(hand);
         System.out.println("手札の金量： "+moneyvalue+" 金");
@@ -85,7 +83,7 @@ public class DominionSimSmithy{
 
     }
 
-    public static int moneyValue(String[] hand){
+    public static int moneyValue(String[] hand){//手札の金量を計算する
         int value = 0;
         for(int i=0;i<hand.length;i++){
             if     (hand[i]=="C1") value += 1;
@@ -95,7 +93,7 @@ public class DominionSimSmithy{
         return value;
     }
 
-    public static void purchaseCard(int moneyvalue, String[] trash){
+    public static void purchaseCard(int moneyvalue, String[] trash){//金量に合わせてカードを購入する
         switch(moneyvalue){
             case 0: System.out.println("購入しませんでした\n"); break;  
             case 1: System.out.println("購入しませんでした\n"); break;  
@@ -115,7 +113,7 @@ public class DominionSimSmithy{
         }
     }
 
-    public static void addTrash(String name, String[] trash){
+    public static void addTrash(String name, String[] trash){//捨て札の末尾にカードを追加する
         for(int i=0;i<trash.length;i++){
             if(trash[i]==null){
                 trash[i]=name;
@@ -124,7 +122,8 @@ public class DominionSimSmithy{
         }    
     }
 
-    public static void cleanUpPhase(String[] deck,String[] hand,String[] trash){
+    public static void cleanUpPhase(String[] deck,String[] hand,String[] trash){//クリーンアップフェイズのアクション
+        System.out.println("---クリーンナップフェイズ---\n");
         for(int i=0;i<hand.length;i++){
             if(hand[i]==null)break;
             else{
@@ -132,6 +131,7 @@ public class DominionSimSmithy{
                 hand[i]="*";
             }
         }
+        drawDeck(hand,deck);
     }
 
 }
