@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class DominionSimSmithy{
     public static void main(String args[]){
         final int DECKMAXNUMBER = 100;
@@ -21,7 +24,8 @@ public class DominionSimSmithy{
             }
         }
         printDeck(deck);//デッキの内容を表示
-        drawDeck(hand,deck);//デッキからカードを５枚引く
+        deck = shuffleZone(deck);//デッキをシャッフル
+        drawDeck(deck,hand,trash);//デッキからカードを５枚引く
 
         for(int i=0;i<2;i++){
             printTurn(turn);//ターン数を表示
@@ -68,11 +72,12 @@ public class DominionSimSmithy{
         }
     }
 
-    public static void drawDeck(String[] hand,String[] deck) {//デッキからカードをドローする
+    public static void drawDeck(String[] deck,String[] hand,String[] trash) {//デッキからカードをドローする
         for(int i=0;i<5;i++){
             hand[i] = deck[0];
             for(int j=1;j<deck.length;j++) deck[j-1]=deck[j];
         }
+
     }
 
     public static void purchasePhase(String[] deck,String[] hand,String[] trash){//購入フェイズのアクション
@@ -131,7 +136,24 @@ public class DominionSimSmithy{
                 hand[i]="*";
             }
         }
-        drawDeck(hand,deck);
+        drawDeck(deck,hand,trash);
     }
 
+    public static String[] shuffleZone(String[] zone){//配列をシャッフルする
+        String[] array = new String[zone.length];
+        ArrayList<String> list = new ArrayList<String>();
+        for(int i=0;i<zone.length;i++){
+            if(zone[i]==null){
+                break;
+            }
+            list.add(zone[i]);
+        }
+        Collections.shuffle(list);
+        int i=0;
+        for(String n:list) {
+            array[i]=n;
+            i++;
+        }
+        return array;
+    }
 }
