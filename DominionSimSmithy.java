@@ -30,8 +30,8 @@ public class DominionSimSmithy{
             turn +=1;
             printTurn(turn);//ターン数を表示
             printHand(hand);//手札の内容を表示
-            purchasePhase(deck,hand,trash);//カードを購入・デッキにカードを追加
-            cleanUpPhase(deck,hand,trash);//クリーンナップ
+            purchasePhase(deck,hand,trash);//購入フェイズのアクションを実行
+            cleanUpPhase(deck,hand,trash);//クリーンナップフェイズのアクションを実行
             printHand(hand);//手札の内容を表示
             printDeck(deck);//デッキの内容を表示
             printTrash(trash);//トラッシュの内容を表示
@@ -72,7 +72,7 @@ public class DominionSimSmithy{
         }
     }
 
-    public static void printScore(String[] deck,String[] hand,String[] trash){
+    public static void printScore(String[] deck,String[] hand,String[] trash){//点数を表示
         int score = scoreValue(deck,hand,trash);
         System.out.println("点数： "+score+" 点\n");
     }
@@ -85,7 +85,7 @@ public class DominionSimSmithy{
         }
     }
 
-    public static void cleanUpDeck(String[] deck,String[] trash){
+    public static void cleanUpDeck(String[] deck,String[] trash){//トラッシュのカードをデッキに加えシャッフルする
         System.out.println("デッキシャッフル");
         for(int i=0;i<trash.length;i++){
             if(trash[i]==null)break;
@@ -113,7 +113,7 @@ public class DominionSimSmithy{
         return value;
     }
 
-    public static int scoreValue(String[] deck, String[] hand, String[] trash){
+    public static int scoreValue(String[] deck, String[] hand, String[] trash){//点数を計算
         int value = 0;
         for(int i=0;i<deck.length;i++){
             if     (deck[i]=="P1") value += 1;
@@ -191,7 +191,7 @@ public class DominionSimSmithy{
         }
     }
 
-    public static boolean continueDecision(String[] deck,String[] hand,String[] trash){
+    public static boolean continueDecision(String[] deck,String[] hand,String[] trash){//ゲームの継続判定
         boolean b = (scoreValue(deck,hand,trash) < 27) ;
         return b;
     }
