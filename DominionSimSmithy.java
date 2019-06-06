@@ -6,7 +6,7 @@ public class DominionSimSmithy{
         final int DECKMAXNUMBER = 100;
         final int HANDMAXNUMBER = 10;
         final int TRASHMAXNUMBER = 100;
-        int turn = 1;
+        int turn = 0;
         System.out.println("ボードゲーム：ドミニオン用シミュレーター");
         System.out.println("鍛冶屋ステロのスピードを検証するためのプログラム");
         
@@ -26,8 +26,8 @@ public class DominionSimSmithy{
         printDeck(deck);//デッキの内容を表示
         shuffleZone(deck);//デッキをシャッフル
         drawDeck(deck,hand,trash);//デッキからカードを５枚引く
-
-        for(int i=0;i<10;i++){
+        while(continueDecision(deck,hand,trash)){
+            turn +=1;
             printTurn(turn);//ターン数を表示
             printHand(hand);//手札の内容を表示
             purchasePhase(deck,hand,trash);//カードを購入・デッキにカードを追加
@@ -35,8 +35,8 @@ public class DominionSimSmithy{
             printHand(hand);//手札の内容を表示
             printDeck(deck);//デッキの内容を表示
             printTrash(trash);//トラッシュの内容を表示
-        turn +=1;
         }
+        printScore(deck,hand,trash);//点数を表示
 
     }
 
@@ -72,6 +72,11 @@ public class DominionSimSmithy{
         }
     }
 
+    public static void printScore(String[] deck,String[] hand,String[] trash){
+        int score = scoreValue(deck,hand,trash);
+        System.out.println("点数： "+score+" 点\n");
+    }
+
     public static void drawDeck(String[] deck,String[] hand,String[] trash) {//デッキからカードをドローする
         for(int i=0;i<5;i++){
             if(deck[0]==null) cleanUpDeck(deck,trash);
@@ -104,6 +109,26 @@ public class DominionSimSmithy{
             if     (hand[i]=="C1") value += 1;
             else if(hand[i]=="C2") value += 2;
             else if(hand[i]=="C3") value += 3;
+        }
+        return value;
+    }
+
+    public static int scoreValue(String[] deck, String[] hand, String[] trash){
+        int value = 0;
+        for(int i=0;i<deck.length;i++){
+            if     (deck[i]=="P1") value += 1;
+            else if(deck[i]=="P2") value += 3;
+            else if(deck[i]=="P3") value += 6;
+        }
+        for(int i=0;i<hand.length;i++){
+            if     (hand[i]=="P1") value += 1;
+            else if(hand[i]=="P2") value += 3;
+            else if(hand[i]=="P3") value += 6;
+        }
+        for(int i=0;i<trash.length;i++){
+            if     (trash[i]=="P1") value += 1;
+            else if(trash[i]=="P2") value += 3;
+            else if(trash[i]=="P3") value += 6;
         }
         return value;
     }
@@ -164,5 +189,10 @@ public class DominionSimSmithy{
             zone[i]=n;
             i++;
         }
+    }
+
+    public static boolean continueDecision(String[] deck,String[] hand,String[] trash){
+        boolean b = (scoreValue(deck,hand,trash) < 27) ;
+        return b;
     }
 }
