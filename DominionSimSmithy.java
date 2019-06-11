@@ -6,16 +6,39 @@ public class DominionSimSmithy{
         final int DECKMAXNUMBER = 100;
         final int HANDMAXNUMBER = 10;
         final int TRASHMAXNUMBER = 100;
+        final int LOOPSIM = 100;
         int turn = 0;
         System.out.println("ボードゲーム：ドミニオン用シミュレーター");
         System.out.println("鍛冶屋ステロのスピードを検証するためのプログラム");
-        
         System.out.println("");
 
         String[] deck = new String[DECKMAXNUMBER];//デッキのカード一枚一枚を収納する配列
         String[] hand = new String[HANDMAXNUMBER];//ハンドのカードを一枚一枚収納する配列
         String[] trash = new String[TRASHMAXNUMBER];//トラッシュのカードを一枚一枚収納する配列
+        int[] result = new int[LOOPSIM];//シミュレーションの結果を保存する配列
 
+        for(int i =0;i<LOOPSIM;i++){
+            initialGenerateDeck(deck);//初期デッキを生成
+            drawDeck(deck,hand,trash);//デッキからカードを５枚引く
+            while(continueDecision(deck,hand,trash)){
+                turn +=1;
+                printTurn(turn);//ターン数を表示
+                printHand(hand);//手札の内容を表示
+                purchasePhase(deck,hand,trash);//購入フェイズのアクションを実行
+                cleanUpPhase(deck,hand,trash);//クリーンナップフェイズのアクションを実行
+                printHand(hand);//手札の内容を表示
+                printDeck(deck);//デッキの内容を表示
+                printTrash(trash);//トラッシュの内容を表示
+            }
+            printScore(turn,deck,hand,trash);//点数を表示
+            result[i]=turn;
+            turn = 0;
+            ClearAll(deck,hand,trash);//データを初期化
+        }
+
+    }
+
+    static void initialGenerateDeck(String[] deck){
         for(int i=0;i<10;i++){
             if(i<=6){
                 deck[i] = "C1";
@@ -23,20 +46,7 @@ public class DominionSimSmithy{
                 deck[i] = "P1";
             }
         }
-        printDeck(deck);//デッキの内容を表示
         shuffleZone(deck);//デッキをシャッフル
-        drawDeck(deck,hand,trash);//デッキからカードを５枚引く
-        while(continueDecision(deck,hand,trash)){
-            turn +=1;
-            printTurn(turn);//ターン数を表示
-            printHand(hand);//手札の内容を表示
-            purchasePhase(deck,hand,trash);//購入フェイズのアクションを実行
-            cleanUpPhase(deck,hand,trash);//クリーンナップフェイズのアクションを実行
-            printHand(hand);//手札の内容を表示
-            printDeck(deck);//デッキの内容を表示
-            printTrash(trash);//トラッシュの内容を表示
-        }
-        printScore(deck,hand,trash);//点数を表示
 
     }
 
@@ -72,9 +82,9 @@ public class DominionSimSmithy{
         }
     }
 
-    public static void printScore(String[] deck,String[] hand,String[] trash){//点数を表示
+    public static void printScore(int turn,String[] deck,String[] hand,String[] trash){//点数を表示
         int score = scoreValue(deck,hand,trash);
-        System.out.println("点数： "+score+" 点\n");
+        System.out.println("ターン数： "+turn+"  点数： "+score +"\n");
     }
 
     public static void drawDeck(String[] deck,String[] hand,String[] trash) {//デッキからカードをドローする
@@ -195,4 +205,26 @@ public class DominionSimSmithy{
         boolean b = (scoreValue(deck,hand,trash) < 27) ;
         return b;
     }
+
+    public static void ClearAll(String[] deck,String[] hand,String[] trash){
+        for(int i=0;i<deck.length;i++){
+            if(deck[i]==null)break;
+            else{
+                deck[i]=null;
+            }
+        }
+        for(int i=0;i<hand.length;i++){
+            if(hand[i]==null)break;
+            else{
+                hand[i]=null;
+            }
+        }
+        for(int i=0;i<trash.length;i++){
+            if(trash[i]==null)break;
+            else{
+                trash[i]=null;
+            }
+        }
+    }
+
 }
