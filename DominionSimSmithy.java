@@ -1,12 +1,14 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+
 
 public class DominionSimSmithy{
     public static void main(String args[]){
         final int DECKMAXNUMBER = 100;
         final int HANDMAXNUMBER = 10;
         final int TRASHMAXNUMBER = 100;
-        final int LOOPSIM = 100;
+        final int LOOPSIM = 10000;
         int turn = 0;
         System.out.println("ボードゲーム：ドミニオン用シミュレーター");
         System.out.println("鍛冶屋ステロのスピードを検証するためのプログラム");
@@ -35,6 +37,8 @@ public class DominionSimSmithy{
             turn = 0;
             ClearAll(deck,hand,trash);//データを初期化
         }
+        
+        Printresult(result,LOOPSIM);
 
     }
 
@@ -47,7 +51,6 @@ public class DominionSimSmithy{
             }
         }
         shuffleZone(deck);//デッキをシャッフル
-
     }
 
     static void printTurn(int turn){//現在のターンを表示
@@ -223,6 +226,24 @@ public class DominionSimSmithy{
             if(trash[i]==null)break;
             else{
                 trash[i]=null;
+            }
+        }
+    }
+
+    public static void Printresult(int[] result,int loop){
+        Arrays.sort(result);
+        int c=1;
+        for(int i=0;i<result.length;i++){
+            try{
+                if(result[i]==result[i+1]){
+                    c++;
+                }
+                else{
+                    System.out.println(result[i]+" : "+(double)(c*100)/loop+"%");
+                    c=1;
+                }
+            }catch ( ArrayIndexOutOfBoundsException e ) {
+                System.out.println(result[i]+" : "+(double)(c*100)/loop+"%");
             }
         }
     }
